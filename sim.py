@@ -52,6 +52,7 @@ test.append(run)
 # jammed test cases
 run = (generate_grid(FRAMES,jamType=1), True)
 test.append(run)
+showGrids(test[0][0])
 showGrids(test[1][0])
 
 # TODO
@@ -71,9 +72,10 @@ def serialize(res_pool):
             for rb in subch:
                 serialized_resource[f][i] = rb
                 i+=1
-    print(serialized_resource) # 2D array, needs to be flatten to become 1D.
+    # print(serialized_resource) # 2D array, needs to be flatten to become 1D.
     return serialized_resource
 
+serialize(test[0][0])
 serialize(test[1][0])
 
 # Def clear grid()
