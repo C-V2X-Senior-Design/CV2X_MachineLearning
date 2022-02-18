@@ -1,1 +1,0 @@
-source $PWD/bin/activate
