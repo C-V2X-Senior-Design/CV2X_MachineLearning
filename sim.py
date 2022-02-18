@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 from random import randrange,choice
+import matplotlib.pyplot as plt
+import numpy as np
 
 print("hello cv2x")
 
@@ -54,7 +56,25 @@ showGrids(test[1][0])
 
 # TODO
 # Def serialize():
-# # turns input resource grid into single array
+# turns input resource grid into single array
+def serialize(res_pool):
+    print(res_pool)
+    # print(len(res_pool))
+    # print(len(res_pool[0]))
+    serialized_resource = np.zeros((len(res_pool), len(res_pool[0])**2))
+    # print(serialized_resource)
+
+    for f, _frame in enumerate(res_pool):
+        print(f"Serializing frame {f}")
+        i = 0
+        for subch in _frame:
+            for rb in subch:
+                serialized_resource[f][i] = rb
+                i+=1
+    print(serialized_resource) # 2D array, needs to be flatten to become 1D.
+    return serialized_resource
+
+serialize(test[1][0])
 
 # Def clear grid()
 
