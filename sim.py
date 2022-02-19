@@ -21,8 +21,8 @@ def showGrids(res_pool):
 
 def generate_grid(frames, jamType=0):
     _frames = []*frames
-    jamSC = randrange(10) # subchanne l possition
-    jamSF = randrange(10) # subframe
+    jamSC = randrange(SUBCHANNELS) # subchanne l possition
+    jamSF = randrange(SUBFRAMES) # subframe
     for i in range(frames):
         # TODO random allocation
         # for now assume grid in is full use
@@ -77,6 +77,9 @@ def serialize(res_pool):
 
 serialize(test[0][0])
 serialize(test[1][0])
+
+print("RESOURCE POOL\n")
+print(test)
 
 # Def clear grid()
 
