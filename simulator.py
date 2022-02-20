@@ -71,6 +71,7 @@ class ResourcePoolSim:
             self.serialized_data[i][j] = self.data[i][1] # label
     
     def writeGridToFile(self, serialized=False):
+        # TODO rename for better convention
         DIR = "data/"
         if not os.path.isdir(DIR):
             os.mkdir(DIR)
