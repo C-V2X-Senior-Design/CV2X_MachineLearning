@@ -3,11 +3,13 @@
 # Splits data into two categories: test and train
 # this uses code and logic from sim.py
 import os
-from random import randrange, choice
+from random import randint, randrange, choice
 import numpy as np
 import matplotlib.pyplot as plt
 import time
 import pandas as pd
+import sys
+from tqdm import tqdm
 
 N = 1000
 
@@ -22,7 +24,7 @@ class ResourcePoolSim:
         self.SUBCHANNELS = _subChannelCount
         self.SUBFRAMES = _subFramesCount
         self.data = []
-        print(f"Initialized Resouce Pool\n{self.FRAMES} Frames\t{self.SUBCHANNELS * self.SUBFRAMES} ({self.SUBCHANNELS} x {self.SUBFRAMES}) Resource Block(s)\n")
+        print(f"Initialized Resouce Pool\n{self.FRAMES} Frames\t{self.SUBCHANNELS * self.SUBFRAMES} ({self.SUBCHANNELS} x {self.SUBFRAMES}) Resource Block(s)")
     
     def generateGrid(self, jamType=0):
         _frames = []*self.FRAMES
@@ -75,11 +77,11 @@ class ResourcePoolSim:
         
         epoch_time = int(time.time())
         if serialized and self.serialized_data != None:
-            self.serialized_data.tofile(f"{DIR}data_{epoch_time}.csv", sep=",")
+            self.serialized_data.tofile(f"{DIR}serialized_{epoch_time}.csv", sep=",")
         elif serialized and self.serialized_data == None:
             # serialize first
             self.serializeGrid()
-            self.serialized_data.tofile(f"{DIR}data_{epoch_time}.csv", sep=",")
+            self.serialized_data.tofile(f"{DIR}serialized_{epoch_time}.csv", sep=",")
         else:
             df = pd.DataFrame(self.data)
             df.to_csv(f"{DIR}data_{epoch_time}.csv", sep=",")
@@ -88,11 +90,15 @@ class ResourcePoolSim:
 
 
 if __name__ == '__main__':
+    if len(sys.argv) > 1:
+        N = int(sys.argv[1])
+    else:
+        N = 1000
     data = ResourcePoolSim()
-    # for i in range(N):
-    data.generateGrid(0)
-    data.generateGrid(1)
-    # data.showGrid()
-    data.serializeGrid()
+    print(f"Running for {N} samples")
+    for i in tqdm(range(N)):
+        data.generateGrid(int(randint(0,1)))
+        # data.serializeGrid()
     data.writeGridToFile()
-    # data.testGrid()
+    data.showGrid()
+    data.clearGrid()
