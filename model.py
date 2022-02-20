@@ -10,7 +10,7 @@ DIR = "data/" # reads from data folder
 if len(os.listdir(DIR)) == 0:
     print("No Data Detected!")
 else:
-    # files = os.listdir(DIR)
+    files = os.listdir(DIR)
     input = files[len(os.listdir(DIR)) - 1] # get latest entry
     df = pd.read_csv(f"{DIR}{input}")
     print(df)
