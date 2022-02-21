@@ -28,13 +28,16 @@ class ResourcePoolSim:
         self.serialized_data_labels = []
         print(f"Initialized Resouce Pool\n{self.FRAMES} Frames\t{self.SUBCHANNELS * self.SUBFRAMES} ({self.SUBCHANNELS} x {self.SUBFRAMES}) Resource Block(s)")
     
-    def generateGrid(self, jamType=0):
+    def generateGrid(self, jamType=0, RBGAlloc=0):
         _frames = []*self.FRAMES
         jamSC = randrange(self.SUBCHANNELS)
         jamSF = randrange(self.SUBFRAMES)
         for i in range(self.FRAMES):
             # TODO random allocation of resource blocks, for now use 1-in use and 0-not used
-            grid = [[1]*self.SUBFRAMES for _ in range(self.SUBCHANNELS)]
+            if RBGAlloc==0:
+                grid = [[1]*self.SUBFRAMES for _ in range(self.SUBCHANNELS)]
+            elif RBGAlloc==1:
+                grid = [list(np.random.randint(2, size=self.SUBFRAMES)) for _ in range(self.SUBCHANNELS)]
 
             if jamType == 1:
                 # jam every frame with one "dead" pixel (1 -> 0)
@@ -99,7 +102,10 @@ if __name__ == '__main__':
     data = ResourcePoolSim()
     print(f"Running for {N} samples")
     for i in tqdm(range(N)):
-        data.generateGrid(int(randint(0,1)))
+        # test option: all RBG in use
+        data.generateGrid(jamType=randint(0,1), RBGAlloc=0)
+        # # test option: random RBG allocated each frame
+        # data.generateGrid(jamType=randint(0,1), RBGAlloc=1) 
         # data.serializeGrid()
     data.writeGridToFile()
     # data.showGrid()
