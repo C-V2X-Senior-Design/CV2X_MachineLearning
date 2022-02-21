@@ -24,6 +24,8 @@ class ResourcePoolSim:
         self.SUBCHANNELS = _subChannelCount
         self.SUBFRAMES = _subFramesCount
         self.data = []
+        self.serialized_data = None
+        self.serialized_data_labels = []
         print(f"Initialized Resouce Pool\n{self.FRAMES} Frames\t{self.SUBCHANNELS * self.SUBFRAMES} ({self.SUBCHANNELS} x {self.SUBFRAMES}) Resource Block(s)")
     
     def generateGrid(self, jamType=0):
@@ -59,16 +61,16 @@ class ResourcePoolSim:
     
     def serializeGrid(self):
         # serialize data to a 1D array per resource pool for ML model
-        # serialized_data is a 2D array with x resource pools and FRAMES*SUBCH*SUBF+1 for data. Last index is Jammed boolean
-        self.serialized_data = np.zeros((len(self.data), self.FRAMES * self.SUBCHANNELS * self.SUBFRAMES + 1))
+        # serialized_data is a 2D array with x resource pools and FRAMES*SUBCH*SUBF+1 for data.
+        self.serialized_data = np.zeros((len(self.data), self.FRAMES * self.SUBCHANNELS * self.SUBFRAMES))
         for i in range(len(self.data)):
             j = 0
             for f, _frame in enumerate(self.data[i][0]):
                 for subch in _frame:
                     for rb in subch:
-                        self.serialized_data[i][j] = rb
+                        self.serialized_data[i][j] = int(rb)
                         j+=1
-            self.serialized_data[i][j] = self.data[i][1] # label
+            self.serialized_data_labels.append(self.data[i][1]) # labels
     
     def writeGridToFile(self, serialized=False):
         # TODO rename for better convention
@@ -77,15 +79,14 @@ class ResourcePoolSim:
             os.mkdir(DIR)
         
         epoch_time = int(time.time())
-        if serialized and self.serialized_data != None:
-            self.serialized_data.tofile(f"{DIR}serialized_{epoch_time}.csv", sep=",")
-        elif serialized and self.serialized_data == None:
-            # serialize first
+
+        # serialize data before saving for better conversion later on
+        if self.serialized_data == None:
             self.serializeGrid()
-            self.serialized_data.tofile(f"{DIR}serialized_{epoch_time}.csv", sep=",")
-        else:
-            df = pd.DataFrame(self.data)
-            df.to_csv(f"{DIR}data_{epoch_time}.csv", sep=",")
+        
+        self.serialized_data.tofile(f"{DIR}values/serialized_{epoch_time}.txt", sep="\n")
+        self.serialized_data_labels = np.array(self.serialized_data_labels)
+        self.serialized_data_labels.tofile(f"{DIR}labels/serialized_labels_{epoch_time}.txt", sep="\n")
     
     # TODO readGridFromFile()
 
@@ -101,5 +102,5 @@ if __name__ == '__main__':
         data.generateGrid(int(randint(0,1)))
         # data.serializeGrid()
     data.writeGridToFile()
-    data.showGrid()
+    # data.showGrid()
     data.clearGrid()
