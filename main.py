@@ -20,7 +20,8 @@ y_test = [] # testing labels
 # Simulate data
 sim = ResourcePoolSim(5, 10, 10)
 for i in tqdm(range(N)):
-    sim.generateGrid(jamType=randint(0,1), RBGAlloc=randint(0,1))
+    # sim.generateGrid(jamType=randint(0,1), RBGAlloc=randint(0,1))
+    sim.generateGrid(jamType=randint(0, 1), RBGAlloc=0)
 sim.writeGridToFile()
 
 # Preprocess simulated data
@@ -33,7 +34,7 @@ preprocessor.plot_train_set()
 MNISTmodel = SimpleMNISTModel()
 MNISTmodel.summary() # confirm that model has been created
 
-x_train = tf.expand_dims(x_train, 0)
+# x_train = tf.expand_dims(x_train, 0)
 y_train = tf.expand_dims(y_train, 1)
 print(np.shape(x_train[0])) # get shape
 print(np.shape(y_train[0]))

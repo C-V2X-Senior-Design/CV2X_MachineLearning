@@ -47,7 +47,7 @@ class ResourcePoolSim:
                 jamSC = (jamSC + choice([1,0,-1]))%self.SUBCHANNELS
                 jamSF = (jamSF + choice([1,0,-1]))%self.SUBFRAMES
             _frames.append(grid)
-        self.data.append((_frames, bool(jamType)))
+        self.data.append((_frames, int(jamType)))
     
     def showGrid(self):
         # go through data to show resource pools and their frames

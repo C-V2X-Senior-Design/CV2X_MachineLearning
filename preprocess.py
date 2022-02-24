@@ -16,7 +16,7 @@ class Preprocessor:
 
 		# Get serialized resource pools
 		val = os.listdir(value_folder)
-		fname = val[0]
+		fname = val[len(val) - 1]
 		print(f"Opening {fname}")
 		data = open(f"{value_folder}{fname}").read().splitlines()
 
@@ -34,11 +34,12 @@ class Preprocessor:
 			count += 1
 			i += 1
 			pbar.update(1)
+		pbar.update(count)
 		self.resource_pools.append(temp) # add last temp array
 
 		# Get labels for each resource pool
 		lbl = os.listdir(label_folder)
-		fname = lbl[0]
+		fname = lbl[len(lbl) - 1]
 		print(f"Opening {fname}")
 		self.labels = open(f"{label_folder}{fname}").read().splitlines()
 
@@ -53,14 +54,19 @@ class Preprocessor:
 		# reshape x_train
 		for i in range(len(self.x_train)):
 			self.x_train[i] = np.reshape(self.x_train[i], [10, 50])
-			# self.x_train[i] = tf.expand_dims(self.x_train[i])
+			self.y_train[i] = tf.strings.to_number(self.y_train[i])
+		self.y_train = tf.expand_dims(self.y_train, 1) # adding the batch size to match tf input
 		return self.x_train, self.y_train
 	
 	def get_test_set(self):
+		for i in range(len(self.x_test)):
+			self.x_test[i] = np.reshape(self.x_test[i], [10, 50])
+			self.y_test[i] = tf.strings.to_number(self.y_test[i])
+		self.y_test = tf.expand_dims(self.y_test, 1) # adding the batch size to match tf input
 		return self.x_test, self.y_test
 
 	def plot_train_set(self):
-		fig = plt.figure(figsize=(10, 7))
+		fig = plt.figure(figsize=(8, 8))
 		row = 2
 		col = 2
 		j = 1
@@ -70,8 +76,10 @@ class Preprocessor:
 			fig.add_subplot(row, col, j)
 			plt.imshow(self.x_train[i], cmap="plasma")
 			plt.axis('on')
-			plt.title(f"Signal {i}")
+			plt.title(f"Resource Pool {i}")
 			plt.xlabel("SubFrames")
 			plt.ylabel("SubChannels")
-			j += 1
+			plt.colorbar()
+			plt.clim(0, 1)
+			j+=1
 		plt.show()
