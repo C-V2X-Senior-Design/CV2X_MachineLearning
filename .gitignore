@@ -1,6 +1,14 @@
+# MacOS / Linux env
 bin/*
 lib/*
 include/*
-share/*
 run_venv.sh
+
+# Windows env
+Include/*
+Lib/*
+Scripts/*
+
+# Universal
+share/*
 *.cfg
