@@ -1,10 +1,9 @@
-from re import S
-from cv2 import split
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+from tqdm import tqdm
 
 class Preprocessor:
 	resource_pools = []
@@ -16,10 +15,10 @@ class Preprocessor:
 
 		# Get serialized resource pools
 		val = os.listdir(value_folder)
-		fname = dir[0]
+		fname = val[0]
 		print(f"Opening {fname}")
 		data = open(f"{value_folder}{fname}").read().splitlines()
-		for i in range(0, len(data), N):
+		for i in tqdm(range(0, len(data), N)):
 			temp = []
 			for j in range(i, i+N - 1):
 				temp.append(int(float(data[j])))
@@ -27,11 +26,12 @@ class Preprocessor:
 
 		# Get labels for each resource pool
 		lbl = os.listdir(label_folder)
-		fname = dir[0]
+		fname = lbl[0]
 		print(f"Opening {fname}")
 		self.labels = open(f"{label_folder}{fname}").read().splitlines()
 
 		self.split_train_test()
+		print("Finished preprocessing")
 	
 	def split_train_test(self):
 		# 80/20 split for training and testing data

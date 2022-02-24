@@ -1,4 +1,3 @@
-from tabnanny import verbose
 import tensorflow as tf
 print("TensorFlow version:", tf.__version__)
 import numpy as np

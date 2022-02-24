@@ -93,7 +93,7 @@ class ResourcePoolSim:
     
     # TODO readGridFromFile()
 
-
+# TODO add N to support different values when called in main.py
 if __name__ == '__main__':
     if len(sys.argv) > 1:
         N = int(sys.argv[1])
