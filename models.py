@@ -13,7 +13,7 @@ class SimpleMNISTModel:
     def __init__(self, loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), optimizer=tf.keras.optimizers.Adam(0.001)):
         # creates the model
         self.model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(50, 10)),
+            tf.keras.layers.Flatten(input_shape=(10, 50)),
             tf.keras.layers.Dense(128, activation='relu'),
             tf.keras.layers.Dense(2)
         ])

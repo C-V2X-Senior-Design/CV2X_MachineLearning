@@ -81,6 +81,7 @@ class ResourcePoolSim:
         if not os.path.isdir(DIR):
             os.mkdir(DIR)
         
+        # get epoch timestamp
         epoch_time = int(time.time())
 
         # serialize data before saving for better conversion later on
