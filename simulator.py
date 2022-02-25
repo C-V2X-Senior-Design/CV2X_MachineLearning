@@ -11,8 +11,6 @@ import pandas as pd
 import sys
 from tqdm import tqdm
 
-N = 1000
-
 class ResourcePoolSim:
     # Generates resource pool data for ML model
     SUBCHANNELS = 10

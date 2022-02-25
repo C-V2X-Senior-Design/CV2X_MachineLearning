@@ -11,6 +11,7 @@ import os
 class SimpleMNISTModel:
     model = None
     def __init__(self, loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), optimizer=tf.keras.optimizers.Adam(0.001)):
+        self.name = "SimpleMNISTModel"
         # creates the model
         self.model = tf.keras.models.Sequential([
             tf.keras.layers.Flatten(input_shape=(10, 50)),
@@ -40,3 +41,9 @@ class SimpleMNISTModel:
             return
         
         self.model.evaluate(x_test, y_test, verbose=2)
+    
+    def save(self):
+        if self.model == None:
+            return
+
+        self.model.save(f"models/{self.name}")
