@@ -1,10 +1,21 @@
 # C-V2X Machine Learning
 
 ## Setup
-```python3 -m venv .```
-MacOS / Unix: ```source ./bin/activate```
-Windows: ```.\Scripts\activate.bat```
-```pip install -r requirements.txt```
+```
+python3 -m venv .
+```
+MacOS / Unix:
+```
+source ./bin/activate
+```
+Windows:
+```
+.\Scripts\activate.bat
+```
+Install packages
+```
+pip install -r requirements.txt
+```
 
 ### Creating Models
 Run *createModel.py* by `python createModel.py` to create data to train and test the models from models.py.
