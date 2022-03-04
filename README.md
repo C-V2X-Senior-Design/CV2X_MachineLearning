@@ -1,7 +1,19 @@
 # C-V2X Machine Learning
 
 ## Setup
+`python3 -m venv .`
+MacOS / Unix: `source ./bin/activate`
+Windows: `.\Scripts\activate.bat`
 `pip install -r requirements.txt`
+
+### Creating Models
+Run *createModel.py* by `python createModel.py` to create data to train and test the models from models.py.
+```
+NOTE: createModel.py uses the models located in models.py. To create a custom ML model, create a class in models.py.
+```
+
+### Evaluating Models
+Run *evaluation.py* by `python evaluation.py` to evaluate and run all models located in the `models/` directory. Evaluation produces loss and accuracy metrics.
 
 ## Main Files
 ### CreateModel.py

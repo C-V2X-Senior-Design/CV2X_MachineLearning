@@ -83,3 +83,22 @@ class Preprocessor:
 			plt.clim(0, 1)
 			j+=1
 		plt.show()
+	
+	def plot_test_set(self):
+		fig = plt.figure(figsize=(8, 8))
+		row = 2
+		col = 2
+		j = 1
+		for i in range(0, len(self.x_test), int(len(self.x_test) / 4)):
+			# img = Image.fromarray(np.uint8(self.x_train[i]  * 255), 'L')
+			# img.show()
+			fig.add_subplot(row, col, j)
+			plt.imshow(self.x_test[i], cmap="plasma")
+			plt.axis('on')
+			plt.title(f"Resource Pool {i}")
+			plt.xlabel("SubFrames")
+			plt.ylabel("SubChannels")
+			plt.colorbar()
+			plt.clim(0, 1)
+			j+=1
+		plt.show()
