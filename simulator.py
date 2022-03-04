@@ -78,6 +78,8 @@ class ResourcePoolSim:
         DIR = "data/"
         if not os.path.isdir(DIR):
             os.mkdir(DIR)
+            os.mkdir(f"{DIR}values/")
+            os.mkdir(f"{DIR}labels/")
         
         # get epoch timestamp
         epoch_time = int(time.time())
@@ -89,23 +91,17 @@ class ResourcePoolSim:
         self.serialized_data.tofile(f"{DIR}values/serialized_{epoch_time}.txt", sep="\n")
         self.serialized_data_labels = np.array(self.serialized_data_labels)
         self.serialized_data_labels.tofile(f"{DIR}labels/serialized_labels_{epoch_time}.txt", sep="\n")
+        print(f"Written to {DIR}values/serialized_{epoch_time}.txt")
     
     # TODO readGridFromFile()
 
 # TODO add N to support different values when called in main.py
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        N = int(sys.argv[1])
-    else:
-        N = 1000
-    data = ResourcePoolSim()
+    N = 100000
+    sim = ResourcePoolSim(5, 10, 10)
     print(f"Running for {N} samples")
     for i in tqdm(range(N)):
-        # test option: all RBG in use
-        data.generateGrid(jamType=randint(0,1), RBGAlloc=0)
-        # # test option: random RBG allocated each frame
-        # data.generateGrid(jamType=randint(0,1), RBGAlloc=1) 
-        # data.serializeGrid()
-    data.writeGridToFile()
-    # data.showGrid()
-    data.clearGrid()
+        sim.generateGrid(jamType=0, RBGAlloc=randint(0,1))
+        # sim.generateGrid(jamType=randint(0, 1), RBGAlloc=0)
+    sim.writeGridToFile()
+    sim.clearGrid()
