@@ -17,7 +17,8 @@ class ResourcePoolSim:
     SUBFRAMES = 10
     FRAMES = 5
     
-    def __init__(self, _frameCount=FRAMES, _subChannelCount=SUBCHANNELS, _subFramesCount=SUBFRAMES):
+    def __init__(self, n, _frameCount=FRAMES, _subChannelCount=SUBCHANNELS, _subFramesCount=SUBFRAMES):
+        self.N = n
         self.FRAMES = _frameCount
         self.SUBCHANNELS = _subChannelCount
         self.SUBFRAMES = _subFramesCount
@@ -90,15 +91,15 @@ class ResourcePoolSim:
         
         self.serialized_data.tofile(f"{DIR}values/serialized_{epoch_time}.txt", sep="\n")
         self.serialized_data_labels = np.array(self.serialized_data_labels)
-        self.serialized_data_labels.tofile(f"{DIR}labels/serialized_labels_{epoch_time}.txt", sep="\n")
+        self.serialized_data_labels.tofile(f"{DIR}labels/serialized_{epoch_time}_labels.txt", sep="\n")
         print(f"Written to {DIR}values/serialized_{epoch_time}.txt")
     
     # TODO readGridFromFile()
 
 # TODO add N to support different values when called in main.py
 if __name__ == '__main__':
-    N = 100000
     sim = ResourcePoolSim(5, 10, 10)
+    N = sim.N
     print(f"Running for {N} samples")
     for i in tqdm(range(N)):
         sim.generateGrid(jamType=0, RBGAlloc=randint(0,1))

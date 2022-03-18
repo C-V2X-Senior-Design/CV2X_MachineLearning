@@ -39,9 +39,8 @@ class Preprocessor:
 
 		# Get labels for each resource pool
 		lbl = os.listdir(label_folder)
-		fname = lbl[len(lbl) - 1]
-		print(f"Opening {fname}")
-		self.labels = open(f"{label_folder}{fname}").read().splitlines()
+		print(f"Opening {fname[:-4]}_labels.txt")
+		self.labels = open(f"{label_folder}{fname[:-4]}_labels.txt").read().splitlines()
 
 		self.split_train_test()
 		print("Finished preprocessing")

@@ -8,28 +8,14 @@ import os
 
 # TODO attach this to a bigger models library
 
-class SimpleMNISTModel:
+class Model:
     model = None
-    def __init__(self, loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), optimizer=tf.keras.optimizers.Adam(0.001)):
-        self.name = "SimpleMNISTModel"
-        # creates the model
-        self.model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(10, 50)),
-            tf.keras.layers.Dense(128, activation='relu'),
-            tf.keras.layers.Dense(2)
-        ])
-
-        self.model.compile(
-            optimizer=optimizer,
-            loss=loss,
-            metrics=[tf.keras.metrics.SparseCategoricalAccuracy()],
-        )
+    name = ""
 
     def summary(self):
         if self.model != None:
             self.model.summary()
 
-    # TODO add train and evaluate functions
     def train(self, x_train, y_train, epoch=5):
         if self.model == None:
             return
@@ -47,3 +33,70 @@ class SimpleMNISTModel:
             return
 
         self.model.save(f"models/{self.name}")
+
+class SimpleMNISTModel(Model):
+    def __init__(self, loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), optimizer=tf.keras.optimizers.Adam(0.001)):
+        self.name = "SimpleMNISTModel"
+        # creates the model
+        self.model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(10, 50)),
+            tf.keras.layers.Dense(128, activation='relu'),
+            tf.keras.layers.Dense(2)
+        ])
+
+        self.model.compile(
+            optimizer=optimizer,
+            loss=loss,
+            metrics=[tf.keras.metrics.BinaryAccuracy()],
+        )
+
+class SimpleMNISTModelv2(Model):
+    def __init__(self, loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True), optimizer=tf.keras.optimizers.Adam(0.001)):
+        self.name = "SimpleMNISTModelv2"
+        # creates the model
+        self.model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(10, 50)),
+            tf.keras.layers.Dense(128, activation='sigmoid'),
+            tf.keras.layers.Dense(2)
+        ])
+
+        self.model.compile(
+            optimizer=optimizer,
+            loss=loss,
+            metrics=[tf.keras.metrics.BinaryAccuracy()],
+        )
+
+class SimpleMNISTModelv3(Model):
+    def __init__(self, loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(0.001)):
+        self.name = "SimpleMNISTModelv3"
+        # creates the model
+        self.model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(10, 50)),
+            tf.keras.layers.Dense(128, activation='sigmoid'),
+            tf.keras.layers.Dense(2)
+        ])
+
+        self.model.compile(
+            optimizer=optimizer,
+            loss=loss,
+            metrics=[tf.keras.metrics.BinaryAccuracy()],
+        )
+
+class ImprovedCNNModel(Model):
+    def __init__(self, loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(0.001)):
+        self.name = "ImprovedCNNModel"
+        self.model = tf.keras.models.Sequential([
+            tf.keras.layers.Flatten(input_shape=(10, 50)),
+            tf.keras.layers.Dense(256, activation='sigmoid'),
+            # tf.keras.layers.MaxPool2D(),
+            tf.keras.layers.Dense(128, activation='sigmoid'),
+            # tf.keras.layers.MaxPool2D(),
+            tf.keras.layers.Dense(64, activation='sigmoid'),
+            tf.keras.layers.Dense(2)
+        ])
+
+        self.model.compile(
+            optimizer=optimizer,
+            loss=loss,
+            metrics=[tf.keras.metrics.BinaryAccuracy()],
+        )
