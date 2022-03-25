@@ -6,11 +6,13 @@ import pandas as pd
 import sys
 import os
 
-# TODO attach this to a bigger models library
-
 class Model:
     model = None
     name = ""
+
+    # input size - 2D (X, Y)
+    X = 10
+    Y = 50
 
     def summary(self):
         if self.model != None:
@@ -39,7 +41,7 @@ class SimpleMNISTModel(Model):
         self.name = "SimpleMNISTModel"
         # creates the model
         self.model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(10, 50)),
+            tf.keras.layers.Flatten(input_shape=(self.X, self.Y)),
             tf.keras.layers.Dense(128, activation='relu'),
             tf.keras.layers.Dense(2)
         ])
@@ -55,7 +57,7 @@ class SimpleMNISTModelv2(Model):
         self.name = "SimpleMNISTModelv2"
         # creates the model
         self.model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(10, 50)),
+            tf.keras.layers.Flatten(input_shape=(self.X, self.Y)),
             tf.keras.layers.Dense(128, activation='sigmoid'),
             tf.keras.layers.Dense(2)
         ])
@@ -71,7 +73,7 @@ class SimpleMNISTModelv3(Model):
         self.name = "SimpleMNISTModelv3"
         # creates the model
         self.model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(10, 50)),
+            tf.keras.layers.Flatten(input_shape=(self.X, self.Y)),
             tf.keras.layers.Dense(128, activation='sigmoid'),
             tf.keras.layers.Dense(2)
         ])
@@ -86,7 +88,7 @@ class ImprovedCNNModel(Model):
     def __init__(self, loss=tf.keras.losses.BinaryCrossentropy(), optimizer=tf.keras.optimizers.Adam(0.001)):
         self.name = "ImprovedCNNModel"
         self.model = tf.keras.models.Sequential([
-            tf.keras.layers.Flatten(input_shape=(10, 50)),
+            tf.keras.layers.Flatten(input_shape=(self.X, self.Y)),
             tf.keras.layers.Dense(256, activation='sigmoid'),
             # tf.keras.layers.MaxPool2D(),
             tf.keras.layers.Dense(128, activation='sigmoid'),
