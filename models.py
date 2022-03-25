@@ -18,7 +18,7 @@ class Model:
         if self.model != None:
             self.model.summary()
 
-    def train(self, x_train, y_train, epoch=5):
+    def train(self, x_train, y_train, epoch=10):
         if self.model == None:
             return
         
