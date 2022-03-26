@@ -31,19 +31,13 @@ preprocessor = Preprocessor(DIR, N)
 x_train, y_train = preprocessor.get_train_set() # get training data
 x_test, y_test = preprocessor.get_test_set() # get testing data
 
-# Run and train model on preprocessed data
-MNISTmodel = m.SimpleMNISTModel()
-# MNISTmodel.summary()
-models.append(MNISTmodel)
-MNISTmodel2 = m.SimpleMNISTModelv2()
-# MNISTmodel2.summary()
-models.append(MNISTmodel2)
-MNISTmodel3 = m.SimpleMNISTModelv3()
-# MNISTmodel3.summary()
-models.append(MNISTmodel3)
-CNNmodel = m.ImprovedCNNModel()
-# CNNmodel.summary()
-models.append(CNNmodel)
+# ADD MODELS HERE
+#############################
+models.append(m.SimpleMNISTModel())
+models.append(m.SimpleMNISTModelv2())
+models.append(m.SimpleMNISTModelv3())
+models.append(m.ImprovedCNNModel())
+#############################
 
 for m in tqdm(models):
     print(f"Running model {m.name}")
